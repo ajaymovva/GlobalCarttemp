@@ -1,0 +1,32 @@
+{% extends "_base.html"%}
+
+{% block content %}
+<center>
+    <table class="table">
+        <tr>
+            <!--<th>Id</th>-->
+            <th>item</th>
+            <th>user</th>
+            <th>Image</th>
+            <th>price</th>
+            <th>quantity</th>
+            <th>operation</th>
+        </tr>
+        {% for obj in object %}
+        <tr>
+            <!--<td>{{obj.id}}</td>-->
+            <td>{{obj.item}}</td>
+            <td>{{obj.user}}</td>
+            <td>
+                {% if obj.image %}
+                <img src="{{obj.image.url}}" width="50px" height="50px" style=""/>
+                {% endif %}
+            </td>
+            <td>{{obj.price}}</td>
+            <td>{{obj.quantity}}</td>
+            <td><a href="{% url 'GlobalCartapp:deletecartitem' obj.id %}" class="btn btn-default active;btn btn-info btn-sm">delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "_base.html"%}
+
+{% block content %}
+<script type="text/JavaScript">
+      setTimeout("location.href = '{% url 'GlobalCartapp:Bookeditems' %}'",10500);
+
+</script>
+<h1 style="margin-left:300px"><b>Thank you for using GlobalCart</b></h1>
+<h2 style="margin-left:350px"> PAYMENT PROCESSING </h2>
+<h3 style="margin-left:350px"><b>Please dont press backbutton </b></h3>
+<h4><b style="margin-left:350px"><i>After completion you will redirect to booked info</i></b></h4>
+{% endblock %}

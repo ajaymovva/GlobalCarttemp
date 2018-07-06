@@ -1,0 +1,49 @@
+{% extends "_base.html"%}
+
+{% block content %}
+<center>
+    <table>
+{% for user in userdata %}
+        <tr>
+            <td><b>username:</b></td>
+            <td>
+            {{user.username}}
+            </td>
+        </tr>
+        <tr>
+            <td><b>email:</b></td>
+            <td>
+            {{user.email}}
+            </td>
+        </tr>
+{% endfor %}
+{% for user in userinfo_data %}
+        <tr>
+            <td><b>address:</b></td>
+            <td>
+            {{user.address}}
+            </td>
+        </tr>
+        <tr>
+            <td><b>wallet:</b></td>
+            <td>
+            {{user.wallet}}
+            </td>
+        </tr>
+        <tr>
+             <td><b>Phonenumber:</b></td>
+            <td>
+           {{user.phonenumber}}
+            </td>
+        </tr>
+{% endfor %}
+        {% if user %}
+        <tr>
+            <td><a  href="{% url 'GlobalCartapp:editprofile' user.id %}"
+            class="btn btn-default active;btn btn-info btn-sm">Edit profile</a>
+            </td>
+        </tr>
+        {% endif %}
+        </table>
+</center>
+{% endblock %}

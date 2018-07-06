@@ -1,0 +1,16 @@
+{% extends "_base.html"%}
+
+{% block content %}
+<div class="container">
+    <h2>User Login:</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{form}}
+        <input style="margin-top:10px;height:35px;width:70px;margin-right:10px;color:white;background:black"
+               type="submit" value="Login"/>
+        <button style="color:white;margin-left:5px" class="btn btn-primary"><a style="color:white"
+                                                                                href="{% url 'GlobalCartapp:signup' %}"
+        >Signup</a></button>
+    </form>
+</div>
+{% endblock %}

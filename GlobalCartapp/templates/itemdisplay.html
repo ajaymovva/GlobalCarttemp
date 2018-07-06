@@ -1,0 +1,72 @@
+{% extends "_base.html"%}
+
+{% block content %}
+<style>
+    #table-wrapper {
+        position:relative;
+    }
+    #table-scroll {
+        height:150px;
+        overflow:auto;
+        margin-top:20px;
+    }
+</style>
+<div align="left">
+    <table>
+        {% if object %}
+        <tr>
+            <td rowspan="6">
+                <img src="{{object.image.url}}" width="250px" height="400px" style=""/>
+            </td>
+            <td style="white-space: pre;"></td>
+            <td><h2>{{object.name}}</h2></td>
+        </tr>
+        <tr>
+            <td style="white-space: pre;"></td>
+            <td><b>PRICE:</b>{{object.price}}</td>
+        </tr>
+        <tr>
+            <td style="white-space: pre;"></td>
+            <td><b>CATEGORY:</b>{{object.category}}</td>
+        </tr>
+        <tr>
+            <td style="white-space: pre;"></td>
+            <td><b>DESCRIPTION:</b>{{object.description}}</td>
+        </tr>
+        <tr>
+            <td style="white-space: pre;"></td>
+            <td>on click pay the amount <b>{{object.price}}</b> shown is deducted from account</td>
+        </tr>
+        <tr>
+            <td style="white-space: pre;"></td>
+            <td>
+                <a href="{% url 'GlobalCartapp:payment' object.id %}"
+                   class="btn btn-default active;btn btn-info btn-sm">PAY {{object.price}}</a>
+                <a href="{% url 'GlobalCartapp:reviews' object.id %}"
+                   class="btn btn-default active;btn btn-info btn-sm">Reviews</a>
+                <a class="btn btn-default active;btn btn-info btn-sm">CASH ON DELIVARY</a>
+            </td>
+        </tr>
+        {% endif %}
+    </table>
+</div>
+
+<div align="right" class="rating" style="position:absolute;right:100px;top:200px" id="table-wrapper">
+    <div id="table-scroll">
+        <table border="3" style="width:500px;height:80px">
+            <tr>
+                <td align="center"><b>review_by</b></td>
+                <td align="center"><b>review</b></td>
+                <td align="center"><b>rating</b></td>
+            </tr>
+            {% for rev in review %}
+            <tr>
+                <td align="center">{{rev.user__username}}</td>
+                <td align="center">{{rev.reviews}}</td>
+                <td align="center">{{rev.rating}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "_base.html"%}
+
+{% block content %}
+<center>
+    <table class="table">
+        <tr>
+            <!--<th>Id</th>-->
+            {% if  object %}
+            <th>name</th>
+            <th>Image</th>
+            <th>price</th>
+            <th>category</th>
+            <th style="white-space: pre;"> CART                    BOOK</th>
+            <th>options</th>
+            {% endif %}
+        </tr>
+        {% for obj in object %}
+        <tr>
+            <!--<td>{{obj.id}}</td>-->
+            <td>
+                {{obj.name}}
+            </td>
+            <td>
+                {% if obj.image %}
+                <a href="{% url 'GlobalCartapp:itemcompleteinfo' obj.id %}">
+                    <img src="{{obj.image.url}}" width="100px" height="150px" style=""/>
+                </a>
+                {% endif %}
+            </td>
+            <td>{{obj.price}}</td>
+            <td>{{obj.category}}</td>
+            <td style="white-space: pre;" ><a href="{% url 'GlobalCartapp:addtocart' obj.id %}" class="btn btn-default active;btn btn-info btn-sm">ADD
+                TO CART</a>
+            </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">MARK
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="{% url 'GlobalCartapp:addtowishlist' obj.id %}">wishlist</a></li>
+                        <li class="dropdown-item"><a href="{% url 'GlobalCartapp:addtopreorderlist' obj.id %}">preorder</a></li>
+                    </ul>
+                </div>
+            </td>
+            {% endfor %}
+    </table>
+</center>
+{% endblock %}
