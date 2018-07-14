@@ -1,13 +1,16 @@
 {% extends "_base.html"%}
 
 {% block content %}
+<center><h3>UPDATE ADDRESS-INFO</h3></center>
 <div class="container">
     <form method="post">
         {% csrf_token %}
         {{form}}
         <div>
-            <input type="submit" style="margin-top:20px;height:35px;width:70px;margin-right:20px;color:white;background:blue" value="EDIT"/>
+            <input type="submit"
+                   style="margin-top:20px;height:35px;width:70px;margin-right:20px;color:white;background:blue"
+                   value="UPDATE"/>
         </div>
-     </form>
+    </form>
 </div>
 {% endblock %}

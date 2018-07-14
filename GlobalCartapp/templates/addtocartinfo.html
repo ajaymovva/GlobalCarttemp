@@ -2,31 +2,52 @@
 
 {% block content %}
 <center>
-    <table class="table">
-        <tr>
-            <!--<th>Id</th>-->
-            <th>item</th>
-            <th>user</th>
-            <th>Image</th>
-            <th>price</th>
-            <th>quantity</th>
-            <th>operation</th>
-        </tr>
-        {% for obj in object %}
-        <tr>
-            <!--<td>{{obj.id}}</td>-->
-            <td>{{obj.item}}</td>
-            <td>{{obj.user}}</td>
-            <td>
-                {% if obj.image %}
-                <img src="{{obj.image.url}}" width="50px" height="50px" style=""/>
-                {% endif %}
-            </td>
-            <td>{{obj.price}}</td>
-            <td>{{obj.quantity}}</td>
-            <td><a href="{% url 'GlobalCartapp:deletecartitem' obj.id %}" class="btn btn-default active;btn btn-info btn-sm">delete</a></td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% if object %}
+    <h4>YOUR-CART</h4>
+    <div style="margin-left:1000px">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--raised"
+           style="text-decoration:none;margin-left:1px"
+           href="{% url 'GlobalCartapp:updatecartprofile' obj %}">
+            BUY-ALL
+        </a>
+    </div>
 </center>
+<div class="mdl-grid">
+    {% for obj in object %}
+    <div class="mdl-cell mdl-cell--4-col">
+        <div class="mdl-card mdl-shadow--4dp" style="width:240px;text-align:center;">
+            <a href="{% url 'GlobalCartapp:itemcompleteinfo' obj.item_id %}">
+                <img src="{{obj.image.url}}" height="150px" style="margin: auto; padding-top:12px;"/>
+            </a>
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">{{obj.item}}</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <strong style="font-size:19px;color:black">price:{{obj.price}}</strong><br><br>
+                <strong style="font-size:19px;color:black">count:{{obj.quantity}}</strong>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <span class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">R</span>
+                    <span class="mdl-chip__text">REMOVE</span>
+                    <a href="{% url 'GlobalCartapp:deletecartitem' obj.id %}" class="mdl-chip__action"><i
+                            class="material-icons">delete</i></a>
+                </span>
+                <a href="{% url 'GlobalCartapp:addexistcart' obj.id %}">
+                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+                            id="tt1"
+                            style="height:40px;width:5px;margin-left:15px">
+                        <i class="material-icons">
+                            add
+                        </i>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<h4>YOUR-CART-IS-EMPTY</h4>
+{% endif %}
 {% endblock %}

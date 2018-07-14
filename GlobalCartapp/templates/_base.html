@@ -13,65 +13,100 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
             integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
             crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <style>
+    .demo-layout-waterfall .mdl-layout__header-row .mdl-navigation__link:last-of-type  {
+    padding-right: 0;
+    }
+    .a
+    {
+        text-decoration:none;
+    }
+    </style>
 </head>
 <body>
-<nav style="background:blue;padding-top:20px" class="navbar navbar-inverse">
-
-    <div class="navbar-header">
-        <a class="navbar-brand" style="margin-left:50px;padding-down:40px" href="{% url 'GlobalCartapp:items' %}"><i>GlobalCart</i></a>
-    </div>
-    <div>
-        <form class="navbar-form navbar-left" method=get action="http://localhost:8000/search/"
-              encType="multipart/form-data">
-            <div class="input-group">
-                <input type="text" class="form-control" name="item" style="width:400px"
-                       placeholder="Search for products,brands and more"/>
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit">
-                        <i class="glyphicon glyphicon-search"></i>
-                    </button>
+<div class="demo-layout-waterfall mdl-layout mdl-js-layout">
+    <header class="mdl-layout__header mdl-layout__header--waterfall">
+        <!-- Top row, always visible -->
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title"><a href="{% url 'GlobalCartapp:items' %}"
+                                              style="color:white;text-decoration:none;"><i>GlobalCart</i></a>
+            </span>
+            <a href="{% url 'GlobalCartapp:home' %}" class="mdl-layout__tab" style="color:white;font-size:18px;text-decoration:none">HOME</a>
+            <div class="mdl-layout-spacer"></div>
+            <form method=get action="{% url 'GlobalCartapp:searchitems' %}">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                  mdl-textfield--floating-label mdl-textfield--align-right">
+                    <label class="mdl-button mdl-js-button mdl-button--icon"
+                           for="waterfall-exp">
+                        <i class="material-icons">search</i>
+                    </label>
+                    <div class="mdl-textfield__expandable-holder">
+                        <input class="mdl-textfield__input" type="text" name="item"
+                               id="waterfall-exp">
+                    </div>
                 </div>
+            </form>
+        </div>
+        <!-- Bottom row, not visible on scroll -->
+        <div class="mdl-layout__header-row">
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation">
+                {% if request.user.is_authenticated %}
+                <a class="mdl-navigation__link" href="{% url 'GlobalCartapp:logout' %}"
+                   style="text-decoration:none;font-size:18px"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a>
+                {% endif %}
+                {% if not request.user.is_authenticated %}
+                <a class="mdl-navigation__link" href="{% url 'GlobalCartapp:login' %}"
+                   style="text-decoration:none;font-size:18px"><span class="glyphicon glyphicon-log-in"></span>
+                    Login/Signup</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">GlobalCart</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="{% url 'GlobalCartapp:items' %}" style="text-decoration:none"><i
+                    class="material-icons">home</i><b
+                    style="color:black;"> HOME</b></a>
+            <a class="mdl-navigation__link" href="{% url 'GlobalCartapp:userdetails' %}" style="text-decoration:none"><i
+                    class="material-icons">account_circle</i><b
+                    style="color:black;"> PROFILE</b></a>
+            <a class="mdl-navigation__link" href="{% url 'GlobalCartapp:cartitems' %}"
+               style="text-decoration:none"><i
+                    class="material-icons">shopping_cart</i><strong
+                    style="color:black;"> CART</strong></a>
+            <a class="mdl-navigation__link"
+               href="{% url 'GlobalCartapp:Bookeditems' %}" style="text-decoration:none"><i
+                    class="material-icons">label</i><strong
+                    style="color:black"> BOOKED-INFO</strong></a>
+            <a class="mdl-navigation__link" href="{% url 'GlobalCartapp:wishlistitems' %}" style="text-decoration:none"><i
+                    class="material-icons">favorite</i><strong
+                    style="color:black"> WISHLIST</strong></a>
+            <a class="mdl-navigation__link" href="{% url 'GlobalCartapp:preorderitems' %}" style="text-decoration:none"><i
+                    class="material-icons">send</i><strong
+                    style="color:black;"> PREORDER</strong></a>
+            <a class="mdl-navigation__link" href="{% url 'GlobalCartapp:contact' %}" style="text-decoration:none"><i
+                    class="material-icons">info</i><strong
+                    style="color:black;"> CONTACT</strong></a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <div class="container">
+                {% block content %}
+                {% endblock content %}
             </div>
-        </form>
-    </div>
-    <div>
-        {% if not request.user.is_authenticated %}
-        <button style="text-color:white;margin-left:550px;margin-down:20px" class="btn btn-primary"><a
-                style="color:white" href="{% url 'GlobalCartapp:login' %}"><span
-                class="glyphicon glyphicon-log-in"></span> Login</a></button>
-        <br/>
-        {% endif %}
-        <br/>
-    </div>
-    {% if request.user.is_authenticated %}
-    <div class="dropdown" style="margin-left:1100px;paddind-down:20px;text-color:white">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">More
-            <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <li class="dropdown-item"><a style="color:blue" href="{% url 'GlobalCartapp:userdetails' %}">profile</a>
-            </li>
-            <li class="dropdown-item"><a style="color:blue" href="{% url 'GlobalCartapp:cartitems' %}">CART</a>
-            </li>
-            <li class="dropdown-item"><a style="color:blue"
-                                         href="{% url 'GlobalCartapp:Bookeditems' %}">BookedInfo</a>
-            </li>
-            <li class="dropdown-item"><a style="color:blue"
-                                         href="{% url 'GlobalCartapp:wishlistitems' %}">wishlist</a>
-            </li>
-            <li class="dropdown-item"><a style="color:blue"
-                                         href="{% url 'GlobalCartapp:preorderitems' %}">preorder</a>
-            </li>
-        </ul>
-        <button style="text-color:white;margin-left:30px" class="btn btn-primary"><a style="color:white"
-                                                                                     href="{% url 'GlobalCartapp:logout' %}">Logout</a>
-        </button>
-    </div>
-    <br/>
-    {% endif %}
-</nav>
-<div class="container">
-    {% block content %}
-    {% endblock content %}
+        </div>
+    </main>
 </div>
 </body>
 </html>

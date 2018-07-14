@@ -6,67 +6,83 @@
         position:relative;
     }
     #table-scroll {
-        height:150px;
+        height:250px;
+        width:350px;
         overflow:auto;
         margin-top:20px;
     }
+
 </style>
 <div align="left">
-    <table>
-        {% if object %}
-        <tr>
-            <td rowspan="6">
-                <img src="{{object.image.url}}" width="250px" height="400px" style=""/>
-            </td>
-            <td style="white-space: pre;"></td>
-            <td><h2>{{object.name}}</h2></td>
-        </tr>
-        <tr>
-            <td style="white-space: pre;"></td>
-            <td><b>PRICE:</b>{{object.price}}</td>
-        </tr>
-        <tr>
-            <td style="white-space: pre;"></td>
-            <td><b>CATEGORY:</b>{{object.category}}</td>
-        </tr>
-        <tr>
-            <td style="white-space: pre;"></td>
-            <td><b>DESCRIPTION:</b>{{object.description}}</td>
-        </tr>
-        <tr>
-            <td style="white-space: pre;"></td>
-            <td>on click pay the amount <b>{{object.price}}</b> shown is deducted from account</td>
-        </tr>
-        <tr>
-            <td style="white-space: pre;"></td>
-            <td>
-                <a href="{% url 'GlobalCartapp:payment' object.id %}"
-                   class="btn btn-default active;btn btn-info btn-sm">PAY {{object.price}}</a>
-                <a href="{% url 'GlobalCartapp:reviews' object.id %}"
-                   class="btn btn-default active;btn btn-info btn-sm">Reviews</a>
-                <a class="btn btn-default active;btn btn-info btn-sm">CASH ON DELIVARY</a>
-            </td>
-        </tr>
-        {% endif %}
-    </table>
-</div>
-
-<div align="right" class="rating" style="position:absolute;right:100px;top:200px" id="table-wrapper">
-    <div id="table-scroll">
-        <table border="3" style="width:500px;height:80px">
-            <tr>
-                <td align="center"><b>review_by</b></td>
-                <td align="center"><b>review</b></td>
-                <td align="center"><b>rating</b></td>
-            </tr>
-            {% for rev in review %}
-            <tr>
-                <td align="center">{{rev.user__username}}</td>
-                <td align="center">{{rev.reviews}}</td>
-                <td align="center">{{rev.rating}}</td>
-            </tr>
-            {% endfor %}
-        </table>
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--8-col">
+            <div class="mdl-card mdl-shadow--2dp" style="width: 100%">
+                <div class="mdl-grid" style="margin: 0;">
+                    <div class="mdl-cell mdl-cell--6-col">
+                        <div class="mdl-card__supporting-text">
+                            <img src="{{object.image.url}}" width="180px" style=""/>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--6-col">
+                        <h1>
+                            {{object.name}}
+                        </h1>
+                        <p>
+                            <b>INFO:</b> {{object.description}}
+                        </p>
+                        <p>
+                            <b>
+                                Price:</b> {{object.price}}
+                        </p>
+                        <!-- Colored raised button -->
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                            <a href="{% url 'GlobalCartapp:reviews' object.id %}"
+                               style="color:white;text-decoration:none"><i
+                                    class="material-icons">add_circle</i> Add review</a>
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                            <a href="{% url 'GlobalCartapp:cashondeliver' object.id %}"
+                               style="color:white;text-decoration:none"><i
+                                    class="material-icons">book</i> BOOK ITEM</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-cell mdl-cell--4-col" id="table-wrapper" style="margin-left:8px">
+            <div id="table-scroll">
+                {% if review %}
+                <table class="mdl-data-table mdl-js-data-table">
+                    <caption style="align:center;margin-left:20px"><h5><strong style="color:black">Reviews and
+                        Rating</strong></h5></caption>
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric"><strong style="color:black">review_by</strong>
+                        </th>
+                        <th class="mdl-data-table__cell--non-numeric"><b style="color:black">review</b></th>
+                        <th class="mdl-data-table__cell--non-numeric"><b style="color:black">rating</b></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for rev in review %}
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">{{rev.user__username}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{rev.reviews}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{rev.rating}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+                {% if not review %}
+                <table class="mdl-data-table mdl-js-data-table">
+                    <caption style="align:center;margin-left:20px"><h6><strong style="color:black">No reviews be the
+                        first person to review</strong></h6></caption>
+                </table>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
+
 {% endblock %}

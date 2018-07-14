@@ -1,0 +1,36 @@
+{% extends "_base.html"%}
+
+{% block content %}
+
+<center>
+    <h3 style="color:black">Welcome To GlobalCart</h3>
+</center>
+<div class="mdl-card mdl-shadow--2dp" style="margin-left:400px;width:300px">
+    <h5 align="center" style="color:black"><strong>Select Category</strong></h5>
+    <table class="mdl-data-table mdl-js-data-table" style="margin-left:40px;padding-down:20px" width="40px">
+        <tr>
+            <th style="font-size:15px;padding-bottom:25px"><strong style="color:black">All</strong></th>
+            <td><a href="{% url 'GlobalCartapp:items'%}">
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+                        style="width: 50px; height: 50px; min-width: initial;font-size:17px">
+                    ALL
+                </button>
+            </a></td>
+        </tr>
+        {% for obj in object %}
+        <tr>
+            <td style="font-size:15px"><strong style="color:black">{{obj}}:</strong></td>
+            <td><a href="{% url 'GlobalCartapp:itemsfilterdata' obj %}">
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
+                        style="width: 50px; height: 50px; min-width: initial;font-size:17px">
+                    clickme
+                </button>
+            </a></td>
+        </tr>
+        {% endfor %}
+        <tr>
+        </tr>
+    </table>
+</div>
+{% endblock %}
+

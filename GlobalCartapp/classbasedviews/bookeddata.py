@@ -4,6 +4,7 @@ from django.shortcuts import *
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.urls import reverse_lazy
 
 
 class BookeddataListview(LoginRequiredMixin, ListView):
@@ -55,6 +56,42 @@ def AddtoBookedList(request, pk):
         # obj = EmailMessage(subject, message, settings.EMAIL_HOST_USER, to_list)
         # obj.content_subtype = "html"
         # obj.send()
-        return render_to_response('payment success.html')
+        return redirect('GlobalCartapp:Bookeditems')
     else:
         return redirect('GlobalCartapp:login')
+
+
+class DeleteBookitem(LoginRequiredMixin, PermissionRequiredMixin,DeleteView):
+    model = Bookedinfo
+    template_name = 'deleteform.html'
+    success_url = reverse_lazy('GlobalCartapp:Bookeditems')
+
+    def has_permission(self):
+        pk = self.kwargs['pk']
+        user_id = self.request.user.id
+        # import ipdb
+        # ipdb.set_trace()
+        check_user = Bookedinfo.objects.get(pk=pk).user.id
+
+        if not user_id == check_user:
+            self.raise_exception = True
+            success_url = reverse_lazy('GlobalCartapp:Bookeditems')
+            return False
+        else:
+            def get(self, request, *args, **kwargs):
+                return self.post(request, args, kwargs)
+
+            success_url = reverse_lazy('GlobalCartapp:Bookeditems')
+            return True
+
+
+def cashondelivary(request, pk):
+    user = request.user
+    userdetail = userinfo.objects.get(user=user)
+    # import ipdb
+    # ipdb.set_trace()
+    return redirect('GlobalCartapp:updateuserprofie', userdetail.id, pk)
+
+
+def templatecashondeliver(request, pk):
+    return render(request, "payment_cashondeliver.html", {'pk': pk})

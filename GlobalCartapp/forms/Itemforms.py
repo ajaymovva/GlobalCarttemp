@@ -34,10 +34,20 @@ class Adduser(forms.ModelForm):
 class Adduserprofile(forms.ModelForm):
     class Meta:
         model = userinfo
-        fields = ('address', 'wallet', 'phonenumber')
+        fields = ('address','phonenumber')
         widgets = {
             'address': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter Address'}),
-            'wallet': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter wallet'}),
+            # 'wallet': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter wallet'}),
+            'phonenumber': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter phonenumber'}),
+        }
+
+
+class Add_delivaryinfo(forms.ModelForm):
+    class Meta:
+        model = userinfo
+        fields = ('address', 'phonenumber')
+        widgets = {
+            'address': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter Address'}),
             'phonenumber': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter phonenumber'}),
         }
 

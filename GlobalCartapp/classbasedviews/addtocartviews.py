@@ -18,6 +18,8 @@ class cartlistview(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(cartlistview, self).get_context_data(**kwargs)
         context.update({'user_permissions': self.request.user.get_all_permissions()})
+        userinfoid = userinfo.objects.get(user=self.request.user)
+        context.update({'obj': userinfoid.id})
         return context
 
 
@@ -32,7 +34,52 @@ def addnewitem(request, pk):
         return redirect('GlobalCartapp:login')
 
 
-class Deleteitem(DeleteView):
+def addexistitem(request, pk):
+    if request.user.is_authenticated:
+        user = request.user
+        cart = addtocart.objects.get(id=pk)
+        cart.quantity = cart.quantity + 1
+        item = Item.objects.get(id=cart.item.id)
+        cart.price = cart.price + item.price
+        cart.save()
+        return redirect('GlobalCartapp:cartitems')
+    else:
+        return redirect('GlobalCartapp:login')
+
+
+class Deleteitem(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = addtocart
     template_name = 'deleteform.html'
     success_url = reverse_lazy('GlobalCartapp:cartitems')
+
+    def has_permission(self):
+        pk = self.kwargs['pk']
+        user_id = self.request.user.id
+        # import ipdb
+        # ipdb.set_trace()
+        check_user = addtocart.objects.get(pk=pk).user.id
+
+        if not user_id == check_user:
+            self.raise_exception = True
+            success_url = reverse_lazy('GlobalCartapp:cartitems')
+            return False
+        else:
+            def get(self, request, *args, **kwargs):
+                return self.post(request, args, kwargs)
+
+            success_url = reverse_lazy('GlobalCartapp:cartitems')
+            return True
+
+
+def cashondelivercart(request):
+    return render(request, 'payment_successcart_cash.html')
+
+
+def Bookitem(request):
+    queryset = addtocart.objects.all()
+    user = request.user
+    for iter in queryset:
+        if iter.user == user:
+            bookobj = Bookedinfo(user=user, item=iter.item, price=iter.price, image=iter.image, quantity=1)
+            bookobj.save()
+    return redirect("GlobalCartapp:Bookeditems")

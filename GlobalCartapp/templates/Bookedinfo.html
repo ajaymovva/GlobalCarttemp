@@ -1,29 +1,64 @@
 {% extends "_base.html"%}
 {% block content %}
-<center>
-    <table class="table">
-        <tr>
-            <!--<th>Id</th>-->
-            <th>item</th>
-            <th>Image</th>
-            <th>user</th>
-            <th>price</th>
-            <th>quantity</th>
-        </tr>
-        {% for obj in object %}
-        <tr>
-            <!--<td>{{obj.id}}</td>-->
-            <td>{{obj.item}}</td>
-            <td>
-                {% if obj.image %}
-                <img src="{{obj.image.url}}" width="50px" height="50px" style=""/>
-                {% endif %}
-            </td>
-            <td>{{obj.user}}</td>
-            <td>{{obj.price}}</td>
-            <td>{{obj.quantity}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</center>
+
+{% if object %}
+<center><h4>BOOKING-INFORMATION</h4></center>
+
+<div class="mdl-grid">
+    {% for obj in object %}
+    <div class="mdl-cell mdl-cell--6-col">
+        <div class="mdl-card mdl-shadow--4dp" style="width:500px;text-align:center;">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" style="height:30px">
+                <tbody>
+                <tr>
+                    <td rowspan="3" style="height:10px">
+                        <a href="{% url 'GlobalCartapp:itemcompleteinfo' obj.item_id %}">
+                            <img src="{{obj.image.url}}" height="200px" width="120px" style="margin: auto; padding-top:12px;"/>
+                        </a>
+                    </td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <div class="mdl-card__title">
+                            <h1 class="mdl-card__title-text">{{obj.item}}</h1>
+                        </div>
+                    </td>
+                </tr>
+                <!--<tr>-->
+                    <!--<td class="mdl-data-table__cell&#45;&#45;non-numeric">-->
+                        <!--<div class="mdl-card__supporting-text">-->
+
+                        <!--</div>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <div class="mdl-card__supporting-text" style="color:black">
+                            <div>
+                             <strong >Price: {{obj.price}}</strong>
+                            </div>
+                            <strong >Time: {{obj.time}}</strong>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="align:center">
+                    <td >
+                        <div class="mdl-card__actions" >
+                            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--raised"
+                               style="text-decoration:none;margin-right:120px"
+                               href="{% url 'GlobalCartapp:deletebookitem' obj.id %}"><i
+                                    class="material-icons">delete</i>
+                                CANCEL ORDER
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<center><h4>NOT BOOKED YET</h4></center>
+{% endif %}
+
 {% endblock %}

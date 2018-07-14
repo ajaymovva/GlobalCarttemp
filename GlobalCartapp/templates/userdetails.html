@@ -2,48 +2,41 @@
 
 {% block content %}
 <center>
-    <table>
-{% for user in userdata %}
-        <tr>
-            <td><b>username:</b></td>
-            <td>
-            {{user.username}}
-            </td>
-        </tr>
-        <tr>
-            <td><b>email:</b></td>
-            <td>
-            {{user.email}}
-            </td>
-        </tr>
-{% endfor %}
-{% for user in userinfo_data %}
-        <tr>
-            <td><b>address:</b></td>
-            <td>
-            {{user.address}}
-            </td>
-        </tr>
-        <tr>
-            <td><b>wallet:</b></td>
-            <td>
-            {{user.wallet}}
-            </td>
-        </tr>
-        <tr>
-             <td><b>Phonenumber:</b></td>
-            <td>
-           {{user.phonenumber}}
-            </td>
-        </tr>
-{% endfor %}
-        {% if user %}
-        <tr>
-            <td><a  href="{% url 'GlobalCartapp:editprofile' user.id %}"
-            class="btn btn-default active;btn btn-info btn-sm">Edit profile</a>
-            </td>
-        </tr>
-        {% endif %}
-        </table>
+
+
+    <div class="mdl-cell mdl-cell--4-col" id="table-wrapper">
+        <div id="table-scroll">
+            <table class="mdl-data-table mdl-js-data-table">
+                <caption style="align:center;margin-left:20px"><h4><strong>USER-INFORMATION</strong></h4></caption>
+                {% for user in userdata %}
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>USERNAME:</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{user.username}}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>EMAIL:</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{user.email}}</td>
+                </tr>
+                {% endfor %}
+
+                {% for user in userinfo_data %}
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>ADDRESS:</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{user.address}}</td>
+                </tr>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><strong>PHONENO:</strong></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{user.phonenumber}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div style="margin-top:20px">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                    <a href="{% url 'GlobalCartapp:editprofile' user.id %}" style="color:white;text-decoration:none"><i
+                            class="material-icons">create</i> Edit profile</a>
+                </button>
+            </div>
+        </div>
+    </div>
 </center>
 {% endblock %}
